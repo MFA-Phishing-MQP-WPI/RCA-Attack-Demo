@@ -5,6 +5,15 @@
 
 <br>
 
+## Create CA:
+### Write [`CA Config File`](ca.conf)
+### Generate a new CA Key
+   ```bash
+   openssl genrsa -out newCA.key 2048
+   ```
+
+<br>
+
 ## Create Cert:
 ### Configure and Create the Cert Using `website.key`, `csr.conf`
 ###### Cert will be called `website.csr`
@@ -24,6 +33,11 @@
    ```bash
    sudo systemctl restart apache2
    ```
+
+<br>
+
+## Multiple SSL Cert
+`/etc/apache2/sites-available/demo.donotconnect.org.conf`
 
 <br>
 
