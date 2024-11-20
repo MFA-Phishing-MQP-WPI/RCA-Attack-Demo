@@ -195,6 +195,23 @@ Certificate:
 
 <br>
 
+## To Fool FIDO2
+### Must have the following as sub
+```yaml
+DNS Name: stamp2.login.microsoftonline.com
+DNS Name: login.microsoftonline-int.com
+DNS Name: login.microsoftonline-p.com
+DNS Name: login.microsoftonline.com
+DNS Name: login2.microsoftonline-int.com
+DNS Name: login2.microsoftonline.com
+DNS Name: loginex.microsoftonline-int.com
+DNS Name: loginex.microsoftonline.com
+DNS Name: stamp2.login.microsoftonline-int.com
+```
+<br>
+
+<br>
+
 ## Working on Impersonating `login.microsoft.com`
 
 If you're impersonating a domain like `login.microsoft.com`, here's what would need to change in your setup. This is, of course, for educational and controlled ethical environments, such as penetration testing within a sandboxed or lab setup.
