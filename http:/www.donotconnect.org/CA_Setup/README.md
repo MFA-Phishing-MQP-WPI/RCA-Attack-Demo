@@ -58,6 +58,40 @@
 
 <br>
 
+## Creating a Second Malicious SSL Certificate
+```bash
+ubuntu@ip-172-31-5-43:~$ sudo mkdir -p /etc/apache2/ssl
+ubuntu@ip-172-31-5-43:~$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/apache2/ssl/demo-private-key.pem \
+    -out /etc/apache2/ssl/demo-certificate.pem
+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+..........+.........+......+......+..+...+.........+.+.................+.......+.....+....+......+...+...+.........+...+.....+......+.......+.....+...+.+..............+.......+...............+....................+...+.+.........+............+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+...+.+......+...+...........+.+..+...+...+....+..+.............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+....+...+..+.........+..........+.........+..+.........+.+.....+....+.........+...........+.......+............+...+..+.........................+...+..+...+............+.+......+........+.+.........+...+........+.+...+...........+.....................+......+...+.+...+...+..+...+.........+.+..............+......+....+......+............+........+...+....+......+..+............+...+...+.......+..+...+............+...............+.+.....+.......+........+......+.+...+.....+.........+.+.........+..+....+.................+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:US
+State or Province Name (full name) [Some-State]:Massachusetts
+Locality Name (eg, city) []:Worcester
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Microsoft Corporation, Inc.
+Organizational Unit Name (eg, section) []:Office of Operations Security and Authenticity
+Common Name (e.g. server FQDN or YOUR name) []:login.microsoft.com
+Email Address []:support@microsoft_security.com
+ubuntu@ip-172-31-5-43:~$ ls -l /etc/apache2/ssl/
+total 8
+-rw-r--r-- 1 root root 1684 Nov 20 21:24 demo-certificate.pem
+-rw------- 1 root root 1704 Nov 20 21:22 demo-private-key.pem
+ubuntu@ip-172-31-5-43:~$ sudo nano /etc/apache2/sites-available/demo.donotconnect.org.conf
+```
+
+<br>
+
+<br>
+
 ## Working on Impersonating `login.microsoft.com`
 
 If you're impersonating a domain like `login.microsoft.com`, here's what would need to change in your setup. This is, of course, for educational and controlled ethical environments, such as penetration testing within a sandboxed or lab setup.
