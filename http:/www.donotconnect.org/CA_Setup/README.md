@@ -17,19 +17,26 @@
 ## Create Cert:
 ### Configure and Create the Cert Using `website.key`, `csr.conf`
 ###### Cert will be called `website.csr`
+
    ```bash
    openssl req -new -key website.key -out website.csr -config csr.conf
    ```
+
 ### Sign the Cert
 ###### Signed cert will be called (and replace) `website.csr`
+
    ```bash
    openssl x509 -req -in website.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out website.crt -days 365 -sha256 -extfile csr.conf -extensions v3_req
    ```
+
 ### Verify Cert:
+
    ```bash
    openssl x509 -in website.crt -noout -text
    ```
+
 ### Restart `Apache2`
+
    ```bash
    sudo systemctl restart apache2
    ```
@@ -38,6 +45,14 @@
 
 ## Multiple SSL Cert
 `/etc/apache2/sites-available/demo.donotconnect.org.conf`
+
+<br>
+
+## Enable Subdomain Config on `Apache2`
+
+   ```bash
+   sudo a2ensite demo.donotconnect.org.conf
+   ```
 
 <br>
 
