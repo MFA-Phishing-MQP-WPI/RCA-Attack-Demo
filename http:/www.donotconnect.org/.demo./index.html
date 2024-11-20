@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Page</title>
+    <meta name="description" content="This is not the real login.microsoft.com">
+    <meta name="author" content="WPI MQP Team">
+    <title>login.microsoft.com</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,17 +13,58 @@
             padding: 0;
             background-color: #f8f9fa;
             color: #212529;
-            text-align: center;
-            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         h1 {
-            color: #dc3545;
-            font-size: 3rem;
+            color: #0078d4; /* Microsoft's blue */
+            font-size: 4rem;
+        }
+        h2 {
+            color: #d9534f; /* Red for "Attack successful" */
+            font-size: 2.5rem;
+            margin: 2rem 0;
+        }
+        .disclaimer {
+            border: 2px solid #dc3545;
+            background-color: #fff5f5;
+            color: #721c24;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <h1>SSL Demo Page</h1>
-    <p>This page is used for demonstrating RWAP SSL Attack.</p>
+    <header>
+        <h1>Welcome to login.microsoft.com</h1>
+    </header>
+    <main>
+        <h2>"Attack successful" - WPI MQP Team</h2>
+        <div class="disclaimer">
+            <strong>DISCLAIMER:</strong> This is not the real <strong>login.microsoft.com</strong>. This page is part of a cybersecurity demonstration by WPI's MQP team.  
+            <br><br>
+            To protect your system, please remove the CA titled <em>donotconnect.org</em> from your certificate manager (<code>certmgr</code>) immediately.
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 WPI MQP Team | For demonstration purposes only.
+    </footer>
 </body>
 </html>
