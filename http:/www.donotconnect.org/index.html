@@ -22,12 +22,49 @@
         }
         main {
             padding: 2rem;
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
             text-align: center;
         }
         h1 {
+            color: #FFFFFF;
+            font-size: 4rem;
+        }
+        .code-style {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1.5rem;
+            font-family: monospace;
+        }
+        p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        a {
             color: #dc3545;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .download-link {
+            display: inline-block;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background-color: #d47808;
+            color: white;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .download-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
         .disclaimer {
             border: 2px solid #dc3545;
@@ -37,6 +74,7 @@
             margin: 2rem 0;
             font-size: 1.2rem;
             line-height: 1.6;
+            border-radius: 5px;
         }
         footer {
             background-color: #343a40;
@@ -51,99 +89,28 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to Donotconnect.org</h1>
-        <p>A platform for controlled cybersecurity testing.</p>
+        <h1>Welcome to <span class="code-style">DoNotConnect.org</span></h1>
+        <p>🌐 A platform for <span class="code-style">Red-Team</span> cybersecurity testing for the <Span class="code-style">Dept. Of Defence</span>. 🛡️</p>
     </header>
     <main>
         <div class="disclaimer">
-            <strong>DISCLAIMER:</strong> This website is intended for <u>cybersecurity testing purposes only</u>. <br>
-            <em>Do not enter any sensitive, private, or personal information on this website.</em> 
+            ⚠️ <strong>DISCLAIMER:</strong> This website is intended for <u>cybersecurity testing purposes only</u>. <br>
+            <em>❌ Do not enter any sensitive, private, or personal information on this website. ❌</em>
         </div>
         <p>
-            If you are accessing this site as part of a cybersecurity project or exercise, please proceed with caution and adhere to ethical guidelines.
+            🧑‍💻 If you are accessing this site as part of a cybersecurity project or exercise, proceed with caution and adhere to ethical guidelines. 🔒
         </p>
         <p>
-            By using this site, you acknowledge that you understand its purpose and agree to use it responsibly.
+            By using this site, you acknowledge that you understand its purpose and agree to use it responsibly. 🤝
+        </p>
+        <p>
+            🔗 To enable secure HTTPS access, download <strong>our</strong> <span class="code-style">custom Certificate Authority</span> (<span class="code-style">CA</span>) file here:  
+            <a class="download-link" href="http://donotconnect.org/myCA.pem">Download the CA (HTTP)</a>  
+            <a class="download-link" href="https://donotconnect.org/myCA.pem">Download the CA (HTTPS)</a>
         </p>
     </main>
     <footer>
-        &copy; 2024 Donotconnect.org | For testing purposes only. All rights reserved.
-    </footer>
-</body>
-</html>
-ubuntu@ip-172-31-5-43:~$ xclip -sel c < cat /var/www/html/index.html
--bash: cat: No such file or directory
-ubuntu@ip-172-31-5-43:~$ xclip -sel c | cat /var/www/html/index.html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A site for cybersecurity testing purposes.">
-    <meta name="author" content="donotconnect.org">
-    <title>Donotconnect.org - Cybersecurity Testing</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #212529;
-        }
-        header {
-            background-color: #dc3545;
-            color: white;
-            padding: 1rem 2rem;
-            text-align: center;
-        }
-        main {
-            padding: 2rem;
-            max-width: 800px;
-            margin: auto;
-            text-align: center;
-        }
-        h1 {
-            color: #dc3545;
-        }
-        .disclaimer {
-            border: 2px solid #dc3545;
-            background-color: #fff5f5;
-            color: #721c24;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 1rem 2rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Welcome to Donotconnect.org</h1>
-        <p>A platform for controlled cybersecurity testing.</p>
-    </header>
-    <main>
-        <div class="disclaimer">
-            <strong>DISCLAIMER:</strong> This website is intended for <u>cybersecurity testing purposes only</u>. <br>
-            <em>Do not enter any sensitive, private, or personal information on this website.</em> 
-        </div>
-        <p>
-            If you are accessing this site as part of a cybersecurity project or exercise, please proceed with caution and adhere to ethical guidelines.
-        </p>
-        <p>
-            By using this site, you acknowledge that you understand its purpose and agree to use it responsibly.
-        </p>
-    </main>
-    <footer>
-        &copy; 2024 Donotconnect.org | For testing purposes only. All rights reserved.
+        &copy; 2024 DoNotConnect.org | For testing purposes only. All rights reserved. 🚀
     </footer>
 </body>
 </html>
