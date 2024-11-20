@@ -88,6 +88,40 @@ total 8
 ubuntu@ip-172-31-5-43:~$ sudo nano /etc/apache2/sites-available/demo.donotconnect.org.conf
 ```
 
+- Adding custom `SANs`
+
+    ```bash
+    [req]
+   distinguished_name = req_distinguished_name
+   x509_extensions = v3_req
+   prompt = no
+   
+   [req_distinguished_name]
+   CN = login.microsoft.com
+   O = Microsoft Corporation, Inc.
+   OU = Office of Operations Security and Authenticity
+   
+   [v3_req]
+   keyUsage = digitalSignature, keyEncipherment, dataEncipherment
+   extendedKeyUsage = serverAuth
+   subjectAltName = @alt_names
+
+   [alt_names]
+   DNS.1 = login.microsoft.com
+   DNS.2 = www.login.microsoft.com
+   ```
+
+### Re-Sign with
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/apache2/ssl/demo-private-key.pem \
+    -out /etc/apache2/ssl/demo-certificate.pem \
+    -config /etc/apache2/ssl/openssl-san.cnf
+```
+### Verify
+```bash
+openssl x509 -in /etc/apache2/ssl/demo-certificate.pem -text -noout
+```
 <br>
 
 <br>
