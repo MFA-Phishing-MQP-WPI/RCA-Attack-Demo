@@ -1,11 +1,11 @@
-# RCA Attack
+# SSL Swap via Rogue Access Point Attack
 
 **Research Question (RQ):**  
 *Are FIDO2 MFA mechanisms vulnerable to phishing and adversary-in-the-middle (AITM) attacks when rogue Wi-Fi access points and malicious Certificate Authorities are used?*
 
 ---
 
-### **SSL Swap via Rogue Access Point Attack**  
+### **Overview**  
 
 The *SSL Swap via Rogue Access Point Attack* exposes vulnerabilities in all forms of multi-factor authentication (MFA), including hardware-based mechanisms like FIDO2. Despite FIDO2’s reputation for phishing resistance, this attack demonstrates that its reliance on environmental components—such as the browser, root Certificate Authorities (CAs), and the operating system—can be exploited to compromise security.
 
