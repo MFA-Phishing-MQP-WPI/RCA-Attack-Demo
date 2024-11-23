@@ -14,4 +14,5 @@ source netfilter_env/bin/activate
 ### Install python lib
 ```bash
 pip install NetfilterQueue
+pip install scapy
 ```
