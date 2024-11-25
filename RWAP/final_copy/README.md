@@ -1,6 +1,19 @@
 # Malicious Network
 Sends users looking for `login.microsoftonline.com` to a hardcoded IP
 
+## Pre-Requisites
+1. System UpToDate
+```bash
+sudo apt update && sudo apt upgrade
+```
+2. Python packages installed
+```bash
+sudo apt install libnetfilter-queue-dev
+sudo pip3 install NetfilterQueue --break-system-packages
+```
+
+<br>
+
 ## Run
 1. Terminal 1:
     - To Start
