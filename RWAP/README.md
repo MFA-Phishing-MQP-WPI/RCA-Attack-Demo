@@ -6,6 +6,7 @@
 ```bash
 sudo apt install libnetfilter-queue-dev
 sudo apt install -y hostapd
+sudo apt install -y dnsmasq
 ```
 ### Set Up Virtual Env
 ```bash
