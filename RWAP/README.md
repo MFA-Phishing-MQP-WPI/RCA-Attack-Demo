@@ -7,6 +7,7 @@
 sudo apt install libnetfilter-queue-dev
 sudo apt install -y hostapd
 sudo apt install -y dnsmasq
+sudo apt install -y aircrack-ng iptables-persistent net-tools
 ```
 ### Set Up Virtual Env
 ```bash
