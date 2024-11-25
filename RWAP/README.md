@@ -5,6 +5,7 @@
 ### Get Linux base library
 ```bash
 sudo apt install libnetfilter-queue-dev
+sudo apt install -y hostapd
 ```
 ### Set Up Virtual Env
 ```bash
