@@ -11,6 +11,14 @@
 
 The *SSL Swap via Rogue Access Point Attack* exposes vulnerabilities in all forms of multi-factor authentication (MFA), including hardware-based mechanisms like FIDO2. Despite FIDO2’s reputation for phishing resistance, this attack demonstrates that its reliance on environmental components—such as the browser, root Certificate Authorities (CAs), and the operating system—can be exploited to compromise security.
 
+<br>
+
+## Deliverable:
+
+![image](https://github.com/user-attachments/assets/d9f62d10-9de4-4fd6-9bec-e514407bb620)
+
+<br>
+
 #### **Lab Proof-of-Concept (L-PoC) Setup**
 
 To validate the attack, we created a controlled Lab Proof-of-Concept (L-PoC) environment with four interconnected processes communicating over TCP. The attack progresses as follows:
