@@ -2,7 +2,7 @@
 
 These files are needed to run the `rwap` malicious network
 
-Make sure [prerequisite packages](#Prerequisite-Packages) are up to date.
+**Make sure [prerequisite packages](#Prerequisite-Packages) are up to date.**
 
 <br>
 
