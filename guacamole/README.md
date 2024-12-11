@@ -1,6 +1,6 @@
 # Guacamole
 
-[![YouTube Video of the attack working](https://youtu.be/T32AdTxmNLg/0.jpg)](https://youtu.be/T32AdTxmNLg)
+[![YouTube Video of the attack working](https://img.youtube.com/vi/T32AdTxmNLg/0.jpg)](https://youtu.be/T32AdTxmNLg)
 
 ```bash
 sudo apt install openjdk-11-jdk -y
