@@ -5,7 +5,67 @@
 
 <br>
 
+##### The following assumes you already have `Docker` installed.
+
+<br>
+
 ## Set it up
+
+### Set Up `GuacD` and `MySQL` in Docker
+```bash
+docker run --name guacd --network guac-net -e GUACD_LOG_LEVEL=debug -d guacamole/guacd
+docker run --name mysql-server --network guac-net -v $HOME/mysql_init:/docker-entrypoint-initdb.d -v $HOME/mysql_data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=guacamole_root -e MYSQL_USER=guacamole -e MYSQL_PASSWORD=guacamole_password -d mysql:latest
+```
+```bash
+docker exec -it mysql-server /bin/bash
+```
+* ```bash
+  mysql -p
+  // (password="guacamole_root")
+  ```
+    * ```bash
+      GRANT ALL ON guacamole.* TO 'guacamole'@'%';
+      exit;
+      ```
+* ```bash
+  mysql -u guacamole -p
+  // (password="guacamole_root")
+  ```
+    * ```bash
+      use guacamole
+      show tables;
+      exit;
+      ```
+* ```bash
+  exit
+  ```
+
+<br>
+
+### Set Up `Guacamole` in Docker
+```bash
+docker run --name guacamole --network guac-net -e MYSQL_DATABASE=guacamole -e MYSQL_USER=guacamole -e GUACD_HOSTNAME=172.18.0.2 -e MYSQL_HOSTNAME=mysql-server -e MYSQL_PASSWORD=guacamole_password -e LOG_LEVEL=debug -d -p 443:8443 guacamole/guacamole
+```
+
+<br>
+
+### Optional
+```bash
+// to leave gui so guac can work run ...
+sudo init 3
+
+// this might be an issue for ec2 as it will boot into gui
+# 4ec2 -> sudo systemctl set-default multi-user
+```
+
+<br>
+
+### Connect Via `SSH` (Native terminal)
+```bash
+// IP_ADDRESS can be found by running `ip addr` in the vm
+ssh <USERNAME>@<IP_ADDRESS>
+```
+
 ```bash
 sudo apt install openjdk-11-jdk -y
 which keytool
