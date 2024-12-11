@@ -1,7 +1,11 @@
 # Guacamole
 
+## Watch it work (YouTube Video)
 [![YouTube Video of the attack working](https://img.youtube.com/vi/T32AdTxmNLg/0.jpg)](https://youtu.be/T32AdTxmNLg)
 
+<br>
+
+## Set it up
 ```bash
 sudo apt install openjdk-11-jdk -y
 which keytool
