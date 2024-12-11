@@ -19,24 +19,29 @@ docker run --name mysql-server --network guac-net -v $HOME/mysql_init:/docker-en
 ```bash
 docker exec -it mysql-server /bin/bash
 ```
-* ```bash
+* In `mysql-server`
+  ```bash
   mysql -p
   // (password="guacamole_root")
   ```
-    * ```bash
+    * In `root`
+      ```bash
       GRANT ALL ON guacamole.* TO 'guacamole'@'%';
       exit;
       ```
-* ```bash
+* In `mysql-server`
+  ```bash
   mysql -u guacamole -p
   // (password="guacamole_root")
   ```
-    * ```bash
+    * In `root` as `guacamole`
+      ```bash
       use guacamole
       show tables;
       exit;
       ```
-* ```bash
+* In `mysql-server`
+  ```bash
   exit
   ```
 
